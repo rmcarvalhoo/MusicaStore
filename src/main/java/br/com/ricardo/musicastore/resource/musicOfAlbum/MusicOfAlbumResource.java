@@ -1,5 +1,6 @@
 package br.com.ricardo.musicastore.resource.musicOfAlbum;
 
+import br.com.ricardo.musicastore.resource.artist.json.ArtistJson;
 import br.com.ricardo.musicastore.resource.musicOfAlbum.json.MusicOfAlbumJson;
 import br.com.ricardo.musicastore.service.MusicOfAlbumService;
 import br.com.ricardo.musicastore.service.MusicService;
@@ -25,7 +26,7 @@ public class MusicOfAlbumResource {
             @RequestParam(value = "start", defaultValue = "0") Integer start,
             @RequestParam(value = "limit", defaultValue = "10") Integer limit,
             @RequestParam(value = "id") Integer id) {
-        log.info("MusicResource.getById(start [{}], limit [{}], id [{}])",start,limit, id);
+        log.info("MusicOfAlbumResource.getById(start [{}], limit [{}], id [{}])",start,limit, id);
         return ResponseEntity.ok(musicServiceOfAlbumService.getById(id));
     }
 
@@ -33,14 +34,23 @@ public class MusicOfAlbumResource {
     public ResponseEntity<Page<MusicOfAlbumJson>> getAll(
             @RequestParam(value = "start", defaultValue = "0") Integer start,
             @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
-        log.info("MusicResource.getAll(start [{}], limit [{}])",start,limit);
+        log.info("MusicOfAlbumResource.getAll(start [{}], limit [{}])",start,limit);
         return ResponseEntity.ok(musicServiceOfAlbumService.getAll(PageRequest.of(start, limit)));
     }
 
     @PostMapping("/create")
     public ResponseEntity<MusicOfAlbumJson> create(@RequestBody @Valid MusicOfAlbumJson request) {
-        log.info("MusicResource.create(MusicOfAlbumJson [{}])", request);
+        log.info("MusicOfAlbumResource.create(MusicOfAlbumJson [{}])", request);
         musicServiceOfAlbumService.create(request);
+        return ResponseEntity.status(HttpStatus.OK).body(request);
+    }
+
+    @PutMapping("/{id}/update")
+    public ResponseEntity<MusicOfAlbumJson> update(@PathVariable("id") Integer id,
+                                             @RequestBody @Valid MusicOfAlbumJson request) {
+        log.info("MusicOfAlbumResource.create(id [{}], MusicOfAlbumJson [{}])", id, request);
+        request.setId(id);
+        musicServiceOfAlbumService.update(request);
         return ResponseEntity.status(HttpStatus.OK).body(request);
     }
 

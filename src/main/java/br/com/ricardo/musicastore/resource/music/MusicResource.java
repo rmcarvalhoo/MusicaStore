@@ -1,5 +1,6 @@
 package br.com.ricardo.musicastore.resource.music;
 
+import br.com.ricardo.musicastore.resource.artist.json.ArtistJson;
 import br.com.ricardo.musicastore.resource.music.json.MusicJson;
 import br.com.ricardo.musicastore.service.MusicService;
 import jakarta.validation.Valid;
@@ -40,6 +41,15 @@ public class MusicResource {
     public ResponseEntity<MusicJson> create(@RequestBody @Valid MusicJson request) {
         log.info("MusicResource.create(MusicRequest [{}])", request);
         musicService.create(request);
+        return ResponseEntity.status(HttpStatus.OK).body(request);
+    }
+
+    @PutMapping("/{id}/update")
+    public ResponseEntity<MusicJson> update(@PathVariable("id") Integer id,
+                                             @RequestBody @Valid MusicJson request) {
+        log.info("MusicResource.create(id [{}], MusicJson [{}])", id, request);
+        request.setId(id);
+        musicService.update(request);
         return ResponseEntity.status(HttpStatus.OK).body(request);
     }
 

@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class ArtistService {
@@ -37,21 +39,26 @@ public class ArtistService {
         return response;
     }
 
-    public void update(Integer id, ArtistJson request) {
-        artistValidation.createArtistValidation(request);
-        ArtistEntity entity = new ArtistEntity();
-        BeanUtils.copyProperties(request, entity);
-        repository.save(entity);
-        request.setId(entity.getId());
+    public void existById(Integer id){
+        if (!repository.existsById(id)) {
+            throw new ArtistException("Artist does not exist");
+        }
     }
 
     public void create(ArtistJson request) {
         artistValidation.createArtistValidation(request);
+        save(request);
+    }
+
+    public void update(ArtistJson request) {
+        artistValidation.updateArtistValidation(request);
+        save(request);
+    }
+
+    private void save(ArtistJson request) {
         ArtistEntity entity = new ArtistEntity();
         BeanUtils.copyProperties(request, entity);
         repository.save(entity);
         request.setId(entity.getId());
     }
-
-
 }

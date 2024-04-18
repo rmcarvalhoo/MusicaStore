@@ -40,7 +40,8 @@ public class ArtistResource {
     public ResponseEntity<ArtistJson> update(@PathVariable("id") Integer id,
                                              @RequestBody @Valid ArtistJson request) {
         log.info("ArtistResource.create(id [{}], ArtistRequest [{}])", id, request);
-        artistService.create(request);
+        request.setId(id);
+        artistService.update(request);
         return ResponseEntity.status(HttpStatus.OK).body(request);
     }
 
@@ -50,7 +51,5 @@ public class ArtistResource {
         artistService.create(request);
         return ResponseEntity.status(HttpStatus.OK).body(request);
     }
-
-
 
 }

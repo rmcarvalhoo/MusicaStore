@@ -29,7 +29,7 @@ public class AlbumJson {
     @NotNull(message = "The artistId field must be informed")
     private Integer artistId;
 
-    @Null(message = "The id ArtistJson cannot be informed")
+    @Null(message = "The ArtistJson cannot be informed")
     private ArtistJson artist;
 
 }

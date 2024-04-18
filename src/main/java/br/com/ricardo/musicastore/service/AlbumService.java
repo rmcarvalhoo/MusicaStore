@@ -3,7 +3,6 @@ package br.com.ricardo.musicastore.service;
 import br.com.ricardo.musicastore.exception.AlbumException;
 import br.com.ricardo.musicastore.repository.AlbumRepository;
 import br.com.ricardo.musicastore.repository.jpa.AlbumEntity;
-import br.com.ricardo.musicastore.repository.jpa.ArtistEntity;
 import br.com.ricardo.musicastore.resource.album.json.AlbumJson;
 import br.com.ricardo.musicastore.resource.artist.json.ArtistJson;
 import br.com.ricardo.musicastore.validation.AlbumValidation;
@@ -52,9 +51,23 @@ public class AlbumService {
         return response;
     }
 
+    public void existById(Integer id){
+        if(!repository.existsById(id)) {
+            throw new AlbumException("Album does not exist");
+        }
+    }
+
     public void create(AlbumJson request) {
         albumValidation.createAlbumValidation(request);
+        save(request);
+    }
 
+    public void update(AlbumJson request) {
+        albumValidation.updateAlbumValidation(request);
+        save(request);
+    }
+
+    private void save(AlbumJson request) {
         AlbumEntity entity = new AlbumEntity();
         BeanUtils.copyProperties(request, entity);
         repository.save(entity);

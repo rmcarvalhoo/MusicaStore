@@ -1,6 +1,7 @@
 package br.com.ricardo.musicastore.resource.artist.json;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ArtistJson {
 
+    @Null(message = "The id cannot be informed")
     private Integer id;
 
     @NotBlank(message = "The name must be informed")

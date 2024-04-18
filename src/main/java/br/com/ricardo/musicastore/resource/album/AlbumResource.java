@@ -43,5 +43,14 @@ public class AlbumResource {
         return ResponseEntity.status(HttpStatus.OK).body(request);
     }
 
+    @PutMapping("/{id}/update")
+    public ResponseEntity<AlbumJson> update(
+            @PathVariable("id") Integer id,
+            @RequestBody @Valid AlbumJson request) {
+        log.info("AlbumResource.update(id [{}], AlbumRequest [{}])", id, request);
+        request.setId(id);
+        albumService.update(request);
+        return ResponseEntity.status(HttpStatus.OK).body(request);
+    }
 
 }

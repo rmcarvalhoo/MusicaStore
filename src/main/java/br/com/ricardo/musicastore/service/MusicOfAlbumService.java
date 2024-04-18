@@ -39,6 +39,16 @@ public class MusicOfAlbumService {
 
     public void create(MusicOfAlbumJson request) {
         musicOfAlbumValidation.createMusicOfAlbumValidation(request);
+        save(request);
+    }
+
+    public void update(MusicOfAlbumJson request) {
+        musicOfAlbumValidation.updateMusicOfAlbumValidation(request);
+        save(request);
+    }
+
+    public void save(MusicOfAlbumJson request) {
+        musicOfAlbumValidation.createMusicOfAlbumValidation(request);
         MusicOfAlbumEntity entity = new MusicOfAlbumEntity();
         BeanUtils.copyProperties(request, entity);
         repository.save(entity);
